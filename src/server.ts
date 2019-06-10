@@ -3,6 +3,9 @@ configureEnv();
 
 import http from "http";
 import express from "express";
+import bodyParser from "body-parser";
+
+import { db } from "./db";
 
 process.on("uncaughtException", e => {
   console.log(e);
@@ -26,14 +29,22 @@ import middleware from "./middleware";
 // - import their routes in ./service/index.ts to add new routes
 import routes from "./services";
 
-const router = express();
-applyMiddleware(middleware, router);
-applyRoutes(routes, router);
-applyMiddleware(errorHandlers, router);
+// App setup
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res) => {
+  res.status(404);
+});
+applyMiddleware(middleware, app);
+applyRoutes(routes, app);
+applyMiddleware(errorHandlers, app);
 
+// Server setup
 const { PORT = 3000 } = process.env;
-const server = http.createServer(router);
+const server = http.createServer(app);
 
-server.listen(PORT, () =>
-  console.log(`Server is running http://localhost:${PORT}...`)
-);
+// Database connect
+db.connect({ closeDbConnection: true });
+
+server.listen(PORT, () => console.log(`Server is running http://localhost:${PORT}...`));
