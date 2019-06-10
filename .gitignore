@@ -1,0 +1,17 @@
+# Database SSL Certificates
+ssl/
+
+dist/
+
+.env*
+!.env.sample
+
+.DS_Store
+
+### Node JS ###
+node_modules
+*.env
+route-docs
+service-account-keys
+.vscode
+.editorconfig
