@@ -1,19 +1,17 @@
+import { NewConnsumerType } from "./../../../db/connect";
 import ConsumerPreferenceModel from "../../../db/models/consumer";
 
-export const addConsumer = async (payload: any, callback: Function) => {
+export const addConsumer = async ({ payload, callback }: NewConnsumerType) => {
   const consumer = new ConsumerPreferenceModel({
-    name: payload.name
-    // templateId: payload.template,
-    // startDate: payload.date || new Date(),
-    // repeat: {
-    //   type: String,
-    //   enum: ["daily", "weekly", "monthly"]
-    // },
-    // isActive: { type: Boolean }
+    name: payload.name,
+    templateId: payload.templateId || "",
+    startDate: payload.startDate || new Date(),
+    repeat: payload.repeat || "",
+    isActive: payload.isActive || true
   });
   try {
-    callback(consumer);
     await consumer.save();
+    callback(consumer);
   } catch (err) {
     console.log(err);
   }

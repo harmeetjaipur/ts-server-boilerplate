@@ -4,7 +4,6 @@ import { MongoClient } from "mongodb";
 import { HTTP401Error } from "../../utils/httpErrors";
 import { db } from "../../db";
 import { CONSUMER_DB, CONSUMER_PREFERENCES } from "../../config/constants";
-import { addConsumer } from "./providers/addNew";
 
 // const dbConnect = async () =>
 //   // Database connect
@@ -27,11 +26,17 @@ export default [
     path: "/api/v1/add",
     method: "post",
     handler: async (req: Request, res: Response) => {
-      db.connect().then(async db => {
-        console.log("db: ", await db);
-        const cb = (consumer: object) => console.log(consumer);
-        addConsumer(req.body, cb);
+      db.addConsumer({
+        payload: {
+          name: req.body.name,
+          templateId: req.body.templateId,
+          startDate: req.body.startDate || new Date(),
+          repeat: req.body.repeat,
+          isActive: true
+        },
+        callback: (res: object) => console.log(res)
       });
+      console.log(req);
       res.send("Lets pray now");
     }
   }

@@ -1,11 +1,17 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 const Templates = Object.freeze({
   Single: "Single Image Ad",
   Carousel: "Carousel Ad"
 });
 
-const preferenceSchema: Schema = new mongoose.Schema({
+const Repeat = Object.freeze({
+  Daily: "daily",
+  Weekly: "weekly",
+  Monthly: "monthly"
+});
+
+const preferenceSchema: Schema = new Schema({
   customerId: {
     type: Number,
     unique: true
@@ -22,7 +28,7 @@ const preferenceSchema: Schema = new mongoose.Schema({
   },
   repeat: {
     type: String,
-    enum: ["daily", "weekly", "monthly"]
+    enum: Object.values(Repeat)
   },
   isActive: { type: Boolean }
 });

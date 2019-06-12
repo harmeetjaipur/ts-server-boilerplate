@@ -1,10 +1,11 @@
-type consumerPayload = {
-  name: string;
+type ConsumerPayload = {
+  id: string;
+  callback: Function;
 };
 import mongoose from "mongoose";
 import consumerPreference from "../schema/consumerPreference";
 
-consumerPreference.statics.findById = async function(id: string) {
+consumerPreference.statics.findById = async function({ id, callback }: ConsumerPayload) {
   try {
     let consumer = await this.findOne({
       consumerId: id
@@ -12,12 +13,12 @@ consumerPreference.statics.findById = async function(id: string) {
     if (!consumer) {
       consumer = await this.findOne({ name: consumer });
     }
-    return consumer;
+    callback(consumer);
   } catch (err) {
     console.error(`Error fetching user by id:  ${id}`);
   }
 };
 
-const ConsumerPreferenceModel = mongoose.model("ConsumerPreferenceModel", consumerPreference);
+const ConsumerPreferenceModel = mongoose.model("preferences", consumerPreference);
 
 export default ConsumerPreferenceModel;
