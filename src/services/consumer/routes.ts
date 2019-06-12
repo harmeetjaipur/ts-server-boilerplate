@@ -1,3 +1,4 @@
+import { getAll } from "./providers/getAllConsumers";
 type NewConsumerSuccess = {
   result: object;
   error: boolean;
@@ -7,6 +8,7 @@ import { Request, Response } from "express";
 
 import { HTTP400Error } from "../../utils/httpErrors";
 import { db } from "../../db";
+import { getConsumerPreference } from "./providers/getConsumer";
 
 export default [
   {
@@ -30,6 +32,30 @@ export default [
         }
       });
       res.send(newConsumer);
+    }
+  },
+  {
+    path: "/api/v1/findbyid",
+    method: "post",
+    handler: async (req: Request, res: Response) => {
+      const consumer = await getConsumerPreference({ id: req.body.id });
+      res.send(consumer);
+    }
+  },
+  {
+    path: "/api/v1/findall",
+    method: "post",
+    handler: async (req: Request, res: Response) => {
+      const allConsumerPreferences = await getAll();
+      res.send(allConsumerPreferences);
+    }
+  },
+  {
+    path: "/api/v1/delete",
+    method: "post",
+    handler: async (req: Request, res: Response) => {
+      const allConsumerPreferences = await getAll();
+      res.send(allConsumerPreferences);
     }
   }
 ];

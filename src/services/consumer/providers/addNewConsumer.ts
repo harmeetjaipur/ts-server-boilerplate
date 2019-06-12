@@ -1,4 +1,4 @@
-import { NewConsumerType, ConsumerPayloadItem } from "./../../../db/types";
+import { NewConsumerType, ConsumerPayloadItem } from "../../../db/types";
 import ConsumerPreferenceModel from "../../../db/models/consumer";
 
 const ID = () => {
