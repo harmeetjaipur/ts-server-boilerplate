@@ -1,5 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
+const Templates = Object.freeze({
+  Single: "Single Image Ad",
+  Carousel: "Carousel Ad"
+});
+
 const preferenceSchema: Schema = new mongoose.Schema({
   customerId: {
     type: Number,
@@ -10,7 +15,7 @@ const preferenceSchema: Schema = new mongoose.Schema({
   },
   templateId: {
     type: String,
-    enum: ["Single Image Ad", "Carousel Ad"]
+    enum: Object.values(Templates)
   },
   startDate: {
     type: Date
@@ -20,6 +25,10 @@ const preferenceSchema: Schema = new mongoose.Schema({
     enum: ["daily", "weekly", "monthly"]
   },
   isActive: { type: Boolean }
+});
+
+Object.assign(preferenceSchema.statics, {
+  Templates
 });
 
 export default preferenceSchema;

@@ -5,8 +5,6 @@ import http from "http";
 import express from "express";
 import bodyParser from "body-parser";
 
-import { db } from "./db";
-
 process.on("uncaughtException", e => {
   console.log(e);
   process.exit(1);
@@ -33,9 +31,7 @@ import routes from "./services";
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use((req, res) => {
-  res.status(404);
-});
+
 applyMiddleware(middleware, app);
 applyRoutes(routes, app);
 applyMiddleware(errorHandlers, app);
@@ -43,8 +39,5 @@ applyMiddleware(errorHandlers, app);
 // Server setup
 const { PORT = 3000 } = process.env;
 const server = http.createServer(app);
-
-// Database connect
-db.connect({ closeDbConnection: true });
 
 server.listen(PORT, () => console.log(`Server is running http://localhost:${PORT}...`));
