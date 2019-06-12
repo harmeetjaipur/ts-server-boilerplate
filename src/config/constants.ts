@@ -1,5 +1,5 @@
-export const CONSUMER_DB = "consumers";
-export const CONSUMER_PREFERENCES = "preferences";
+export const CUSTOMER_DB = "customers";
+export const CUSTOMER_PREFERENCES = "preferences";
 export const DAILY = "daily";
 export const WEEKLY = "weekly";
 export const MONTHLY = "monthly";

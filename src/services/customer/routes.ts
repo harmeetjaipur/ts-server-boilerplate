@@ -1,5 +1,6 @@
-import { getAll } from "./providers/getAllConsumers";
-type NewConsumerSuccess = {
+import { removeCustomerPreferenceById } from "./providers/findAndRemoveCustomer";
+import { getAll } from "./providers/getAllCustomers";
+type NewCustomerSuccess = {
   result: object;
   error: boolean;
 };
@@ -8,7 +9,7 @@ import { Request, Response } from "express";
 
 import { HTTP400Error } from "../../utils/httpErrors";
 import { db } from "../../db";
-import { getConsumerPreference } from "./providers/getConsumer";
+import { getCustomerPreference } from "./providers/getCustomer";
 
 export default [
   {
@@ -22,23 +23,23 @@ export default [
     path: "/api/v1/add",
     method: "post",
     handler: async (req: Request, res: Response) => {
-      const newConsumer = await db.addConsumer({
+      const newCustomer = await db.addCustomer({
         payload: {
           consumers: req.body.consumers
         },
-        callback: ({ result, error }: NewConsumerSuccess) => {
+        callback: ({ result, error }: NewCustomerSuccess) => {
           if (error) throw new HTTP400Error();
           else console.log(result);
         }
       });
-      res.send(newConsumer);
+      res.send(newCustomer);
     }
   },
   {
     path: "/api/v1/findbyid",
     method: "post",
     handler: async (req: Request, res: Response) => {
-      const consumer = await getConsumerPreference({ id: req.body.id });
+      const consumer = await getCustomerPreference({ id: req.body.id });
       res.send(consumer);
     }
   },
@@ -46,16 +47,16 @@ export default [
     path: "/api/v1/findall",
     method: "post",
     handler: async (req: Request, res: Response) => {
-      const allConsumerPreferences = await getAll();
-      res.send(allConsumerPreferences);
+      const allCustomerPreferences = await getAll();
+      res.send(allCustomerPreferences);
     }
   },
   {
     path: "/api/v1/delete",
     method: "post",
     handler: async (req: Request, res: Response) => {
-      const allConsumerPreferences = await getAll();
-      res.send(allConsumerPreferences);
+      const removed = await removeCustomerPreferenceById({ id: req.body.id });
+      res.send(removed);
     }
   }
 ];

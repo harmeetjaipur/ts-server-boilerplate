@@ -1,3 +1,3 @@
-import searchRoutes from "./consumer/routes";
+import searchRoutes from "./customer/routes";
 
 export default [...searchRoutes];

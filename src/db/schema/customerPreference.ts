@@ -14,8 +14,7 @@ export const REPEAT = Object.freeze({
 
 const preferenceSchema: Schema = new Schema({
   customerId: {
-    type: Number,
-    unique: true
+    type: Number
   },
   name: {
     type: String

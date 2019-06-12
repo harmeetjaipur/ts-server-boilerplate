@@ -1,4 +1,4 @@
-import { REPEAT } from "./../../db/schema/consumerPreference";
+import { REPEAT } from "../../db/schema/customerPreference";
 
 import * as CONSTANTS from "../../config/constants";
 

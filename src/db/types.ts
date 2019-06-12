@@ -1,4 +1,4 @@
-export interface ConsumerPayloadItem {
+export interface CustomerPayloadItem {
   name: string;
   templateId: string;
   startDate: Date;
@@ -7,11 +7,11 @@ export interface ConsumerPayloadItem {
   customerId: Number;
 }
 
-export interface ConsumerPayload extends Array<ConsumerPayloadItem> {}
+export interface CustomerPayload extends Array<CustomerPayloadItem> {}
 
-export interface NewConsumerType {
+export interface NewCustomerType {
   payload: {
-    consumers: ConsumerPayload;
+    consumers: CustomerPayload;
   };
   callback: Function;
 }

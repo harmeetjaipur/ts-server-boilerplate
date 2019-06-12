@@ -1,13 +1,14 @@
+import { addCustomer } from "../services/customer/providers/addNewCustomer";
 import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 
-import { NewConsumerType } from "./types";
-import ConsumerPreference from "./models/consumer";
-import { addConsumer as addNew } from "../services/consumer/providers/addNewConsumer";
+import { NewCustomerType } from "./types";
+import CustomerPreference from "./models/customer";
+import { addCustomer as addNew } from "../services/customer/providers/addNewCustomer";
 
 const url: string = process.env.DATABASE_URL || "";
 
-const models = { ConsumerPreference };
+const models = { CustomerPreference };
 
 const cb = (db: Object) => console.log("No callback found");
 
@@ -18,7 +19,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 
 export default {
-  addConsumer: ({ payload, callback }: NewConsumerType) => {
+  addCustomer: ({ payload, callback }: NewCustomerType) => {
     return addNew({ payload, callback });
   },
   models
