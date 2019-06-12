@@ -7,7 +7,6 @@ import { Request, Response } from "express";
 
 import { HTTP400Error } from "../../utils/httpErrors";
 import { db } from "../../db";
-import { CONSUMER_DB, CONSUMER_PREFERENCES } from "../../config/constants";
 
 export default [
   {
@@ -21,20 +20,16 @@ export default [
     path: "/api/v1/add",
     method: "post",
     handler: async (req: Request, res: Response) => {
-      db.addConsumer({
+      const newConsumer = await db.addConsumer({
         payload: {
-          name: req.body.name,
-          templateId: req.body.templateId,
-          startDate: req.body.startDate || new Date(),
-          repeat: req.body.repeat,
-          isActive: true
+          consumers: req.body.consumers
         },
         callback: ({ result, error }: NewConsumerSuccess) => {
           if (error) throw new HTTP400Error();
           else console.log(result);
         }
       });
-      res.send("Lets pray now");
+      res.send(newConsumer);
     }
   }
 ];

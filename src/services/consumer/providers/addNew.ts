@@ -1,4 +1,4 @@
-import { NewConnsumerType } from "./../../../db/connect";
+import { NewConsumerType, ConsumerPayloadItem } from "./../../../db/types";
 import ConsumerPreferenceModel from "../../../db/models/consumer";
 
 const ID = () => {
@@ -6,19 +6,22 @@ const ID = () => {
   return num.substr(2, num.length);
 };
 
-export const addConsumer = async ({ payload, callback }: NewConnsumerType) => {
-  const consumer = new ConsumerPreferenceModel({
-    customerId: ID(),
-    name: payload.name,
-    templateId: payload.templateId || "",
-    startDate: payload.startDate || new Date(),
-    repeat: payload.repeat || "",
-    isActive: payload.isActive || true
+export const addConsumer = async ({ payload, callback }: NewConsumerType) => {
+  payload.consumers.map(async (consumer: ConsumerPayloadItem) => {
+    const result = new ConsumerPreferenceModel({
+      customerId: consumer.customerId || ID(),
+      name: consumer.name,
+      templateId: consumer.templateId || "",
+      startDate: consumer.startDate || new Date(),
+      repeat: consumer.repeat || "",
+      isActive: consumer.isActive || true
+    });
+    try {
+      const newConsumer = await result.save();
+      callback({ result: newConsumer, error: false });
+      return newConsumer;
+    } catch (err) {
+      callback({ result: err, error: true });
+    }
   });
-  try {
-    const newConsumer = await consumer.save();
-    callback({ result: newConsumer, error: false });
-  } catch (err) {
-    callback({ result: err, error: true });
-  }
 };
