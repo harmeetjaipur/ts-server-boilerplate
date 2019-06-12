@@ -1,18 +1,13 @@
-import { Request, Response } from "express";
-import { MongoClient } from "mongodb";
+type NewConsumerSuccess = {
+  result: object;
+  error: boolean;
+};
 
-import { HTTP401Error } from "../../utils/httpErrors";
+import { Request, Response } from "express";
+
+import { HTTP400Error } from "../../utils/httpErrors";
 import { db } from "../../db";
 import { CONSUMER_DB, CONSUMER_PREFERENCES } from "../../config/constants";
-
-// const dbConnect = async () =>
-//   // Database connect
-//   await db.connect().then(
-//     (client: MongoClient): object => {
-//       const _db = client.db(CONSUMER_DB);
-//       return client;
-//     }
-//   );
 
 export default [
   {
@@ -34,9 +29,11 @@ export default [
           repeat: req.body.repeat,
           isActive: true
         },
-        callback: (res: object) => console.log(res)
+        callback: ({ result, error }: NewConsumerSuccess) => {
+          if (error) throw new HTTP400Error();
+          else console.log(result);
+        }
       });
-      console.log(req);
       res.send("Lets pray now");
     }
   }

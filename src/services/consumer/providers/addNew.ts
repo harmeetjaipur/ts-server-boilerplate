@@ -1,8 +1,14 @@
 import { NewConnsumerType } from "./../../../db/connect";
 import ConsumerPreferenceModel from "../../../db/models/consumer";
 
+const ID = () => {
+  const num = Math.random().toString();
+  return num.substr(2, num.length);
+};
+
 export const addConsumer = async ({ payload, callback }: NewConnsumerType) => {
   const consumer = new ConsumerPreferenceModel({
+    customerId: ID(),
     name: payload.name,
     templateId: payload.templateId || "",
     startDate: payload.startDate || new Date(),
@@ -10,9 +16,9 @@ export const addConsumer = async ({ payload, callback }: NewConnsumerType) => {
     isActive: payload.isActive || true
   });
   try {
-    await consumer.save();
-    callback(consumer);
+    const newConsumer = await consumer.save();
+    callback({ result: newConsumer, error: false });
   } catch (err) {
-    console.log(err);
+    callback({ result: err, error: true });
   }
 };

@@ -4,6 +4,7 @@ type ConsumerPayload = {
 };
 import mongoose from "mongoose";
 import consumerPreference from "../schema/consumerPreference";
+import { serverError } from "../../utils/ErrorHandlers";
 
 consumerPreference.statics.findById = async function({ id, callback }: ConsumerPayload) {
   try {

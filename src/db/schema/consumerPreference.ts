@@ -1,14 +1,15 @@
 import { Schema } from "mongoose";
+import * as CONSTANTS from "../../config/constants";
 
-const Templates = Object.freeze({
-  Single: "Single Image Ad",
-  Carousel: "Carousel Ad"
+export const TEMPLATES = Object.freeze({
+  SINGLEIMAGEAD: CONSTANTS.SINGLEIMAGEAD,
+  CAROUSELAD: CONSTANTS.CAROUSELAD
 });
 
-const Repeat = Object.freeze({
-  Daily: "daily",
-  Weekly: "weekly",
-  Monthly: "monthly"
+export const REPEAT = Object.freeze({
+  DAILY: CONSTANTS.DAILY,
+  WEEKLY: CONSTANTS.WEEKLY,
+  MONTHLY: CONSTANTS.MONTHLY
 });
 
 const preferenceSchema: Schema = new Schema({
@@ -21,20 +22,21 @@ const preferenceSchema: Schema = new Schema({
   },
   templateId: {
     type: String,
-    enum: Object.values(Templates)
+    enum: Object.values(TEMPLATES)
   },
   startDate: {
     type: Date
   },
   repeat: {
     type: String,
-    enum: Object.values(Repeat)
+    enum: Object.values(REPEAT)
   },
   isActive: { type: Boolean }
 });
 
 Object.assign(preferenceSchema.statics, {
-  Templates
+  TEMPLATES,
+  REPEAT
 });
 
 export default preferenceSchema;
